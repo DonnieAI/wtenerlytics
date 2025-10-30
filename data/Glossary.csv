@@ -1,0 +1,91 @@
+﻿Code,Variable,Units
+biodiesel_cons_kboed,biodiesel consumption ,thousand barrels of oil equivalent per day
+biodiesel_cons_pj,biodiesel consumption ,Petajoules
+biodiesel_prod_kboed,biodiesel production,thousand barrels of oil equivalent per day
+biodiesel_prod_pj,biodiesel production,Petajoules
+biofuels_cons_ej,biofuels consumption,Exajoules
+biofuels_cons_kbd,biofuels consumption,thousand barrels per day
+biofuels_cons_kboed,biofuels consumption,thousand barrels of oil equivalent per day
+biofuels_cons_pj,biofuels consumption,Petajoules
+biofuels_prod_kbd,biofuels production,thousand barrels per day
+biofuels_prod_kboed,biofuels production,thousand barrels of oil equivalent per day
+biofuels_prod_pj,biofuels production,Petajoules
+biogeo_ej,"Geothermal, biomass and other",Exajoules
+biogeo_twh,"Geothermal, biomass and other",Terawatt-hour
+biogeo_twh_net,"Geothermal, biomass and other",Terawatt-hour net
+co2_combust_mtco2,CO2 emissions from combustion,Million tonnes of CO2 
+co2_combust_pc,CO2 emissions from combustion,CO2 combustion per capita
+co2_combust_per_ej,Carbon intensity,CO2 per exajoules
+co2_mtco2,Total CO2 emissions ,Million tonnes of CO2 
+coalcons_ej,Coal consumption ,Exajoules
+coalprod_ej,Coal production,Exajoules
+coalprod_mt,Coal production,Million tonnes
+cobalt_kt,Cobalt production,Kilo tonnes
+cobaltres_kt,Cobalt reserves,Kilo tonnes
+diesel_gasoil_cons_kbd,diesel gasoil consumption,thousand barrels per day
+elect_twh,Electricity,Terawatt-hour
+electbyfuel_coal,Electricity generation from coal,Terawatt-hour
+electbyfuel_gas,Electricity generation from gas,Terawatt-hour
+electbyfuel_hydro,Electricity generation from hydro,Terawatt-hour
+electbyfuel_nuclear,Electricity generation from nuclear,Terawatt-hour
+electbyfuel_oil,Electricity generation from oil,Terawatt-hour
+electbyfuel_other,Electricity generation from other,Terawatt-hour
+electbyfuel_ren_power,Electricity generation from renewables,Terawatt-hour
+electbyfuel_total,Total electricity generation,Terawatt-hour
+ethanol_cons_kboed,Ethanol consumption,thousand barrels of oil equivalent per day
+ethanol_cons_pj,Ethanol Production,Petajoules
+ethanol_prod_kboed,Ethanol Production,thousand barrels of oil equivalent per day
+ethanol_prod_pj,Ethanol Production,Petajoules
+fuel_oil_cons_kbd,Fuel oil consumption,thousand barrels per day
+gascons_bcfd,Gas Consumption,Billion cubic feet per day
+gascons_bcm,Gas Consumption,Billion cubic meters
+gascons_ej,Gas Consumption,Exajoules
+gasflared_bcm,Gas flared,Billion cubic meters
+gasflared_mtco2,Gas flared,Million tonnes of CO2 
+gasoline_cons_kbd,Gasoline consumption,thousand barrels per day
+gasprod_bcfd,Gas Production,Billion cubic feet per day
+gasprod_bcm,Gas Production,Billion cubic meters
+gasprod_ej,Gas Production,Exajoules
+graphite_kt,Graphite production,Kilo tonnes
+graphiteres_kt,Graphite reserves,Kilo tonnes
+hydro_ej,Hydro consumption,Exajoules
+hydro_twh,Hydro generation,Terawatt-hour
+hydro_twh_net,Hydro generation,Terawatt-hour net
+kerosene_cons_kbd,Kerosene Consumption,thousand barrels per day
+light_dist_cons_kbd,Light distillates consumption,thousand barrels per day
+liqcons_kbd,Liquids consumption,thousand barrels per day
+lithium_kt,Lithium production,Kilo tonnes
+lithiumres_kt,Lithium reserves,Kilo tonnes
+lpg_cons_kbd,LPG consumption,thousand barrels per day
+methane_process_mtco2,Methane Emissions from industrial processes,Million tonnes of CO2 
+middle_dist_cons_kbd,Middle distillates consumption,thousand barrels per day
+naphtha_cons_kbd,Naphtha consumption,thousand barrels per day
+nuclear_ej,Nuclear consumption,Exajoules
+nuclear_twh,Nuclear generation,Terawatt-hour
+nuclear_twh_net,Nuclear generation,Terawatt-hour net
+oilcons_ej,Oil consumption,Exajoules
+oilcons_kbd,Oil consumption,thousand barrels per day
+oilcons_mt,Oil consumption,Million tonnes
+oilprod_crudecond_kbd,Oil production,thousand barrels per day
+oilprod_kbd,Oil production,thousand barrels per day
+oilprod_mt,Oil production,Million tonnes
+oilprod_ngl_kbd,Oil production,thousand barrels per day
+other_oil_cons_kbd,Other oil consumption,thousand barrels per day
+pop,Population,
+tes_ej,Total energy supply,Exajoules
+tes_gj_pc,Total energy supply per capita,Gigajoules per capita
+rareearths_kt,Rare earths production,Kilo tonnes
+rareearthsres_kt,Rare earths reserves,Kilo tonnes
+refcap_kbd,Refining capacity,thousand barrels per day
+refcaputil_pct,Refining capacity utilized,Percentage
+refthru_kbd,Refinery throughput,thousand barrels per day
+ren_power_ej,Renewable power consumption,Exajoules
+ren_power_twh,Renewable power generation,Terawatt-hour
+ren_power_twh_net,Renewable power generation,Terawatt-hour net
+renewables_ej,Renewable total energy demand (incl. hydro),Exajoules
+solar_ej,Solar consumption,Exajoules
+solar_twh,Solar generation,Terawatt-hour
+solar_twh_net,Solar generation,Terawatt-hour net
+wind_ej,Wind consumption,Exajoules
+wind_twh,Wind generation,Terawatt-hour
+wind_twh_net,Wind generation,Terawatt-hour net
