@@ -86,6 +86,9 @@ df_filtered= (
      #.assign(yoy_change_pct=lambda x: x["co2_mtco2"].pct_change().fillna(0) * 100)# Select specific columns here
 )
 # **************************************************************************************
+#----------------------------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------------------------
 
 latest_data_produced = df_filtered["biofuels_prod_kboed"].iloc[-1]
 latest_data_consumed= df_filtered["biofuels_cons_kboed"].iloc[-1]

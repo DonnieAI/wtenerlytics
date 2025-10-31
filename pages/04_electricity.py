@@ -23,12 +23,37 @@ df=df_raw
 
 #✅------------------------DATA ELABORATION---------------------------------------------
 
-#BREAKDOWN ENERGY BY SOURCE
-#Selection : Country --> stacked bar graph along years
-#df["renewables_ex_hyd_ej"]=df["renewables_ej"]-df["hydro_ej"]
-#df["yoy_change"] = df["tes_ej"].diff().fillna(0)
+electricity_variables = [
+    "elect_twh",
+    "electbyfuel_oil",
+    "electbyfuel_gas",
+    "electbyfuel_coal",
+    "nuclear_twh",
+    "hydro_twh",
+    "solar_twh",
+    "wind_twh",
+    "biogeo_twh",
+    "electbyfuel_other"
+]
+#some data shall be converte into TWh
 df["wind_twh"]=df["wind_ej"]*277.7
 df["solar_twh"]=df["solar_ej"]*277.7
+total_world_last_year_twh = df.query("Country == 'Total World' and Year == 2024")["elect_twh"].values[0]
+
+
+color_map = {
+            "elect_twh" :"#E67E22",# 
+            "electbyfuel_oil": "#A6BCD0",   # soft gray-blue
+            "electbyfuel_coal": "#C19A6B",  # brownish
+            "electbyfuel_gas": "#F9E79F",   # soft yellow
+            "nuclear_twh": "#D7BDE2",       # light purple
+            "hydro_twh": "#85C1E9",         # light blue
+            "solar_twh": "#F7DC6F",         # 🌞 soft sun-yellow
+            "wind_twh": "#5DADE2",          # 💨 sky blue
+            "biogeo_twh": "#A3E4D7",        # 🌱 mint green / turquoise
+            "electbyfuel_other": "#D5DBDB", 
+ 
+            }
 
 country_selection=(
                     df["Country"]
@@ -43,20 +68,6 @@ year_selection=(
 )
 
 
-color_map = {
-    "electbyfuel_oil": "#A6BCD0",   # soft gray-blue
-    "electbyfuel_coal": "#C19A6B",  # brownish
-    "electbyfuel_gas": "#F9E79F",   # soft yellow
-    "nuclear_twh": "#D7BDE2",       # light purple
-    "hydro_twh": "#85C1E9",         # light blue
-    "solar_twh": "#F7DC6F",         # 🌞 soft sun-yellow
-    "wind_twh": "#5DADE2",          # 💨 sky blue
-    "biogeo_twh": "#A3E4D7",        # 🌱 mint green / turquoise
-    "electbyfuel_other": "#D5DBDB", 
-    "elect_twh" :"#E67E22"# 
-}
-
-
 #✅--------------------------------------------------------------------
 st.title(f" ⚡ Electricity")
 st.markdown("""
@@ -65,7 +76,7 @@ st.markdown("""
             
             """)
 st.markdown(""" 
-            source: Energy Institute 2025
+            source: source: Energy Institute (2024), Country Transition Tracker 2024, Energy Institute, London.
                         """)
 
 
@@ -74,20 +85,6 @@ selected_country = st.selectbox(
     options=country_selection,
     index=country_selection.index("Total Europe")  # 👈 set default selection by index
 )
-
-#df["renewables_ex_hyd_ej"]=df["renewables_ej"]-df["hydro_ej"]
-electricity_variables = [
-    "elect_twh",
-    "electbyfuel_oil",
-    "electbyfuel_gas",
-    "electbyfuel_coal",
-    "nuclear_twh",
-    "hydro_twh",
-    "solar_twh",
-    "wind_twh",
-    "biogeo_twh",
-    "electbyfuel_other"
-]
 
 
 selected_electricity_variables= st.selectbox(
@@ -111,9 +108,52 @@ df_filtered = (
    # .assign(hydro_ren_pc=lambda x: x["hydro_ej"]/x["renewables_ej"]*100)
 )
 # **************************************************************************************
+#----------------------------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------------------------
+latest_total=df_filtered["elect_twh"].iloc[-1]
+country_ele_share=latest_total/total_world_last_year_twh*100
+latest_share=df_filtered[selected_electricity_variables].iloc[-1]/df_filtered["elect_twh"].iloc[-1]*100
+
+col1, col2, col3= st.columns(3)
+
+with col1:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>{selected_country} electricity production </h3>
+            <h1 style='color: #D5D8DC;'>{latest_total:.0f} TWh</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>{selected_country} share on total world electricity </h3>
+            <h1 style='color: #D5D8DC;'>{country_ele_share:.1f} %</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col3:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>{selected_country} {selected_electricity_variables} share </h3>
+            <h1 style='color: #D5D8DC;'>{latest_share:.1f} %</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
-# Create subplot: 2 rows, shared x-axis
+#----------------------------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------------------------
 fig = make_subplots(
     rows=2,
     cols=1,
