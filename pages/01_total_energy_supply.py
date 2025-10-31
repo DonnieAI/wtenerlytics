@@ -51,7 +51,7 @@ st.markdown("""
             
             """)
 st.markdown(""" 
-            source: Energy Institute 2025
+            source: Energy Institute (2024), Country Transition Tracker 2024, Energy Institute, London.
                         """)
 
 
