@@ -17,7 +17,7 @@ apply_style_and_logo()
 df_readeble=pd.read_csv("data/Statistical-Review-of-World-Energy-Data-2025-forpy.csv")
 df_readeble["Region"].unique()
 df_readeble["Country"].unique()
-glossary_da=pd.read_csv("data/Glossary.csv")
+
 df_raw=pd.read_csv("data/panel.csv")
 df=df_raw
 #✅------------------------DATA ELABORATION---------------------------------------------
@@ -46,6 +46,18 @@ production_variables= [
     ]
 
 
+productiion_reserves_map={
+ 
+    "cobalt_kt": "cobaltres_kt",     # pastel red (cobalt)
+    "graphite_kt":"graphiteres_kt",   # pastel blue-grey (graphite)
+    "lithium_kt": "lithiumres_kt",    # pastel sky blue (lithium)
+    "rareearths_kt": "rareearthsres_kt", # pastel lavender (rare earths)
+}
+    
+    
+    
+
+
 color_map = {
     "cobalt_kt": "#EF9A9A",     # pastel red (cobalt)
     "graphite_kt": "#B0BEC5",   # pastel blue-grey (graphite)
@@ -71,7 +83,6 @@ selected_key_material= st.selectbox(
 )
 
 
-
 selected_country = st.selectbox(
     "Select a Country or an Aggregate (Total World as default)",  # label
     options=country_selection,
@@ -92,6 +103,55 @@ df_filtered= (
      .assign(yoy_change_pct=lambda x: x[selected_key_material].pct_change().fillna(0) * 100)# Select specific columns here
 )
 # **************************************************************************************
+#----------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------
+
+total_world_last = df.loc[df["Country"] == "Total World", selected_key_material].iloc[-1]
+latest_countr_data=df_filtered[selected_key_material].iloc[-1]
+share=latest_countr_data/total_world_last*100
+country_latest_reserves=df.loc[df["Country"]==selected_country, productiion_reserves_map.get(selected_key_material)].iloc[-1]
+
+# Create 2 columns for side-by-side KPI cards
+col1, col2, col3= st.columns(3)
+
+with col1:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>{selected_country} share </h3>
+             <h3>{selected_key_material} share </h3>
+            <h1 style='color: {color_map.get(selected_key_material, "#000")};'>{share:.2f} %</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>Production Latest Data</h3>
+            <h3>{selected_key_material} share </h3>
+            <h1 style='color: {color_map.get(selected_key_material, "#000")};'>{latest_countr_data:.0f} kt</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col3:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>Reserves</h3>
+            <h3>{selected_key_material} reserves </h3>
+            <h1 style='color: {color_map.get(selected_key_material, "#000")};'>{country_latest_reserves:.0f} kt</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 
 #----------------------------------------------------
 st.markdown("---")  # horizontal line separator
@@ -114,6 +174,7 @@ fig.add_trace(
         x=df_filtered.index,
         y=df_filtered[selected_key_material] / 1000,  # Convert MtCO2 → GtCO2
         mode="lines+markers",  # Add markers if you want dots on the line
+         fill='tozeroy',
         name=f"{selected_key_material} [kt]",
         line=dict(
                 color=color_map.get(selected_key_material, "#000"), 

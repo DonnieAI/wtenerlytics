@@ -17,7 +17,6 @@ apply_style_and_logo()
 df_readeble=pd.read_csv("data/Statistical-Review-of-World-Energy-Data-2025-forpy.csv")
 df_readeble["Region"].unique()
 df_readeble["Country"].unique()
-glossary_da=pd.read_csv("data/Glossary.csv")
 df_raw=pd.read_csv("data/panel.csv")
 df=df_raw
 
@@ -69,10 +68,10 @@ year_selection=(
 
 
 #✅--------------------------------------------------------------------
-st.title(f" ⚡ Electricity")
+st.title(f" ⚡ Electricity Generataion")
 st.markdown("""
             ### 📊 Electricity generation is based on gross electrical output.
-            #### data in TWh
+            #### data in Terawatthours [TWh]
             
             """)
 st.markdown(""" 
@@ -83,37 +82,47 @@ st.markdown("""
 selected_country = st.selectbox(
     "Select a Country or an Aggregate (Total World as default)",  # label
     options=country_selection,
-    index=country_selection.index("Total Europe")  # 👈 set default selection by index
+    index=country_selection.index("Total World")  # 👈 set default selection by index
 )
 
 
 selected_electricity_variables= st.selectbox(
     "Select an Electricity (Total Electricity as default)",  # label
     options=electricity_variables,
-    index=electricity_variables.index("solar_twh")  # 👈 set default selection by index
+    index=electricity_variables.index("elect_twh")  # 👈 set default selection by index
 )
 
-
+thresold_year=1990
 # **************************************************************************************
 #selection for the different energy in EJ
 df_filtered = (
     df
-    .query("Country == @selected_country")
+    .query("Country == @selected_country and Year >= @thresold_year")
     .set_index("Year")
     .sort_index()
     [electricity_variables]
-    .assign(share_on_total_electricity=lambda x:x[selected_electricity_variables]/x["elect_twh"]*100)
-   #.assign(renewables_ex_hyd_ej=lambda x: x["renewables_ej"] - x["hydro_ej"])
-   # .assign(ren_pc=lambda x:x["renewables_ej"]/x["tes_ej"]*100)
-   # .assign(hydro_ren_pc=lambda x: x["hydro_ej"]/x["renewables_ej"]*100)
+    .assign(
+        share_on_total_electricity=lambda x: (
+            x[selected_electricity_variables] / x["elect_twh"]
+        ) * 100,
+        fossil_share_electricity=lambda x: 
+            (
+            x["electbyfuel_oil"] + x["electbyfuel_coal"] + x["electbyfuel_gas"]
+            ) / x["elect_twh"] * 100
+    )
+    # Uncomment as needed:
+    # .assign(renewables_ex_hyd_ej=lambda x: x["renewables_ej"] - x["hydro_ej"])
+    # .assign(ren_pc=lambda x: x["renewables_ej"]/x["tes_ej"]*100)
+    # .assign(hydro_ren_pc=lambda x: x["hydro_ej"]/x["renewables_ej"]*100)
 )
 # **************************************************************************************
 #----------------------------------------------------------------------
 st.markdown("---")  # horizontal line separator
 #----------------------------------------------------------------------
 latest_total=df_filtered["elect_twh"].iloc[-1]
-country_ele_share=latest_total/total_world_last_year_twh*100
+country_ele_share=(latest_total/total_world_last_year_twh)*100
 latest_share=df_filtered[selected_electricity_variables].iloc[-1]/df_filtered["elect_twh"].iloc[-1]*100
+latest_fossil_share=df_filtered["fossil_share_electricity"].iloc[-1]
 
 col1, col2, col3= st.columns(3)
 
@@ -121,7 +130,7 @@ with col1:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>{selected_country} electricity production </h3>
+            <h3>electricity production | {selected_country}  </h3>
             <h1 style='color: #D5D8DC;'>{latest_total:.0f} TWh</h1>
         </div>
         """,
@@ -132,7 +141,7 @@ with col2:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>{selected_country} share on total world electricity </h3>
+            <h3>share on total world | {selected_country}  </h3>
             <h1 style='color: #D5D8DC;'>{country_ele_share:.1f} %</h1>
         </div>
         """,
@@ -143,13 +152,12 @@ with col3:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>{selected_country} {selected_electricity_variables} share </h3>
-            <h1 style='color: #D5D8DC;'>{latest_share:.1f} %</h1>
+            <h3> fossil share {selected_country} </h3>
+            <h1 style='color: #D5D8DC;'>{latest_fossil_share:.1f} %</h1>
         </div>
         """,
         unsafe_allow_html=True
     )
-
 
 #----------------------------------------------------------------------
 st.markdown("---")  # horizontal line separator
@@ -167,12 +175,13 @@ fig = make_subplots(
 )
 
 fig.add_trace(
-    go.Scatter(
+    go.Bar(
         x=df_filtered.index,
         y=df_filtered[selected_electricity_variables],
         name=selected_electricity_variables.replace("_", " ").title(),
-        fill='tozeroy',
-        line=dict(color=color_map[selected_electricity_variables])  # 👈 dynamic color
+        marker_color=color_map.get(selected_electricity_variables, "#ccc")
+        #fill='tozeroy',
+        #line=dict(color=color_map[selected_electricity_variables])  # 👈 dynamic color
     ),
     row=1,
     col=1
@@ -184,6 +193,7 @@ fig.add_trace(
                 y=df_filtered["share_on_total_electricity"],
                 name="share [%]",
                 #marker_color=color_map[column]
+                fill='tozeroy',
                 line=dict(color=color_map[selected_electricity_variables])  # 👈 dynamic color
             ),
             row=2,
@@ -192,32 +202,32 @@ fig.add_trace(
 
 
 fig.update_xaxes(
-    title_text="years",
-    row=2,
-    col=1,
-    title_font=dict(color='white'),
-    tickfont=dict(color='white'),
-    gridcolor="rgba(255,255,255,0.1)"
+                title_text="years",
+                row=2,
+                col=1,
+                title_font=dict(color='white'),
+                tickfont=dict(color='white'),
+                gridcolor="rgba(255,255,255,0.1)"
 )
 
 
 
 fig.update_yaxes(
-    title_text="Electricity  (TWh)",
-    row=1,
-    col=1,
-    title_font=dict(color='white'),
-    tickfont=dict(color='white'),
-    gridcolor="rgba(255,255,255,0.1)"
+                title_text="Electricity  (TWh)",
+                row=1,
+                col=1,
+                title_font=dict(color='white'),
+                tickfont=dict(color='white'),
+                gridcolor="rgba(255,255,255,0.1)"
 )
 
 fig.update_yaxes(
-    title_text="Share on Aggregated Electricity (%)",
-    row=2,
-    col=1,
-    title_font=dict(color='white'),
-    tickfont=dict(color='white'),
-    gridcolor="rgba(255,255,255,0.1)"
+                title_text="Share on Aggregated Electricity (%)",
+                row=2,
+                col=1,
+                title_font=dict(color='white'),
+                tickfont=dict(color='white'),
+                gridcolor="rgba(255,255,255,0.1)"
 )
 
 
@@ -236,8 +246,8 @@ csv = df_filtered.to_csv(index=True).encode("utf-8")
 
 # Download button
 st.download_button(
-    label=f"⬇️ Download data for {selected_country} ",
+    label=f"⬇️ Download data for Electricity Generation | {selected_country} ",
     data=csv,
-    file_name=f"energy_supply_{selected_country}.csv",
+    file_name=f"Electricity_Generation_{selected_country}.csv",
     mime="text/csv",
 )

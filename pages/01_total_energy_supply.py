@@ -17,7 +17,6 @@ apply_style_and_logo()
 df_readeble=pd.read_csv("data/Statistical-Review-of-World-Energy-Data-2025-forpy.csv")
 df_readeble["Region"].unique()
 df_readeble["Country"].unique()
-glossary_da=pd.read_csv("data/Glossary.csv")
 df_raw=pd.read_csv("data/panel.csv")
 df=df_raw
 
@@ -25,14 +24,54 @@ df=df_raw
 
 #BREAKDOWN ENERGY BY SOURCE
 #Selection : Country --> stacked bar graph along years
+# Ensure Year is numeric if needed
+df['Year'] = pd.to_numeric(df['Year'])
+
+#extract the last valur TES World 
+# Find the last (max) year
+latest_year = df['Year'].max()
+filtered_value = df.loc[(df['Country'] == 'Total World') & (df['Year'] == latest_year),'tes_ej'].values
+ej_value_world_last = filtered_value[0] if len(filtered_value) > 0 else None
+
+
 df["renewables_ex_hyd_ej"]=df["renewables_ej"]-df["hydro_ej"]
 #df["yoy_change"] = df["tes_ej"].diff().fillna(0)
+
+
 country_selection=(
                     df["Country"]
                    .unique()
                    .tolist()
 )
 
+palette_blue = [
+    "#A7D5F2",  # light blue
+    "#94CCE8",
+    "#81C3DD",
+    "#6FBBD3",
+    "#5DB2C8",
+    "#A9DEF9",  # baby blue
+]
+
+palette_green = [
+    "#6DC0B8",  # pastel teal
+    "#7DCFA8",
+    "#8DDC99",
+    "#9CE98A",
+    "#ABF67B",
+    "#C9F9D3",  # mint green
+    "#C4E17F",  # lime green
+]
+
+palette_other = [
+    "#FFD7BA",  # pastel orange
+    "#FFE29A",  # pastel yellow
+    "#FFB6C1",  # pastel pink
+    "#D7BDE2",  # pastel purple
+    "#F6C6EA",  # light rose
+    "#F7D794",  # peach
+    "#E4C1F9",  # lavender
+]
 color_map = {
     "oilcons_ej": "#A6BCD0",
     "coalcons_ej": "#C19A6B",
@@ -63,7 +102,6 @@ selected_country = st.selectbox(
 
 
 
-
 # **************************************************************************************
 #selection for the different energy in EJ
 df_filtered = (
@@ -73,8 +111,57 @@ df_filtered = (
     .sort_index()
     [["oilcons_ej", "coalcons_ej" ,"gascons_ej","nuclear_ej","hydro_ej","renewables_ex_hyd_ej","tes_ej"]]
     .assign(yoy_change_pct=lambda x: x["tes_ej"].pct_change().fillna(0) * 100)
+    .assign(fossil_share=lambda x:(x["oilcons_ej"]+ x["coalcons_ej"]+x["gascons_ej"])/x["tes_ej"]*100)
 )
 # **************************************************************************************
+
+#----------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------
+
+last_data_year=df_filtered.index.values[-1]
+last_tes_value=df_filtered["tes_ej"].iloc[-1]
+last_variation=df_filtered["yoy_change_pct"].iloc[-1]
+last_fossile_share=df_filtered["fossil_share"].iloc[-1]
+country_share=last_tes_value/ej_value_world_last*100
+
+
+
+# Create 2 columns for side-by-side KPI cards
+col1, col2, col3= st.columns(3)
+
+with col1:
+    st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>TES |{selected_country} | {last_data_year} </h3>
+            <h1 style='color: #E67E22;'>{last_tes_value:.0f} EJ</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col2:
+   st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>Fossil Share |{selected_country} | {last_data_year} </h3>
+            <h1 style='color: #C19A6B";'>{last_fossile_share:.1f} %</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col3:
+   st.markdown(
+        f"""
+        <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
+            <h3>TES Share|{selected_country} | {last_data_year} </h3>
+            <h1 style='color: #E67E22;'>{country_share:.1f} %</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 # 💹FIG💹---------------------------------------------------------------------
@@ -186,6 +273,32 @@ fig.update_layout(height=600)
 st.plotly_chart(fig, use_container_width=True, key="TES_chart")
 
 
+
+#----------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------
+
+#NARRATIVE BOX
+# Narrative text with f-string + HTML styling
+narrative = f"""
+<div style="
+    border: 2px solid {palette_green[3]};
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+">
+<b>📊 Key Insights</b>
+
+-In **{last_data_year}** the Total Energy Supply for **{selected_country}** was **{last_tes_value:.0f}** [EJ] with a variation of 
+**{last_variation:.1f}** [%] comparing the previous year.
+
+</div>
+"""
+
+st.markdown(narrative, unsafe_allow_html=True)
+
+
 #----------------------------------------------------------------------
 st.markdown("---")  # horizontal line separator
 #----------------------------------------------------------------------
@@ -200,7 +313,8 @@ st.download_button(
     mime="text/csv",
 )
 
-
+#-----------------------------------------------------------------
+#----------------------------------------------------
 st.markdown("---")  # horizontal line separator
 
 st.markdown(

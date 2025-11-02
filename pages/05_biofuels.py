@@ -17,7 +17,7 @@ apply_style_and_logo()
 df_readeble=pd.read_csv("data/Statistical-Review-of-World-Energy-Data-2025-forpy.csv")
 df_readeble["Region"].unique()
 df_readeble["Country"].unique()
-glossary_da=pd.read_csv("data/Glossary.csv")
+
 df_raw=pd.read_csv("data/panel.csv")
 df=df_raw
 
@@ -101,7 +101,7 @@ with col1:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>Biofuels production/h3>
+            <h3>Biofuels production</h3>
             <h1 style='color: #D5D8DC;'>{latest_data_produced:.1f} kboepd</h1>
         </div>
         """,
@@ -168,7 +168,7 @@ fig.add_trace(
         x=df_filtered.index,
         y=df_filtered["biofuels_cons_kboed"] / 1000,  # Convert MtCO2 → GtCO2
         mode="lines",  # Add markers if you want dots on the line
-        name="Biofuels - production ",
+        name="Biofuels - consumption ",
         line=dict(
                 color=color_map.get("biofuels_cons_kboed", "#000"), 
                 width=2, 
@@ -210,8 +210,8 @@ csv = df_filtered.to_csv(index=True).encode("utf-8")
 
 # Download button
 st.download_button(
-    label=f"⬇️ Download data for GHG | {selected_country} ",
+    label=f"⬇️ Download data for Biofuels | {selected_country} ",
     data=csv,
-    file_name=f"GHG_data_{selected_country}.csv",
+    file_name=f"Biofuels_data_{selected_country}.csv",
     mime="text/csv",
 )

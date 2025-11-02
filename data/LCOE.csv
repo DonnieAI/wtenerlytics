@@ -1,0 +1,105 @@
+Country,Technology,Year,LCOE
+World,Solar PV,2022,51
+G20 + EU,Solar PV,2022,51
+China,Solar PV,2022,39
+EU,Solar PV,2022,76
+United States ,Solar PV,2022,60
+India,Solar PV,2022,39
+Brazil ,Solar PV,2022,45
+World,Onshore Wind,2022,34
+G20 + EU,Onshore Wind,2022,34
+China,Onshore Wind,2022,28
+EU,Onshore Wind,2022,47
+United States ,Onshore Wind,2022,30
+India,Onshore Wind,2022,39
+Brazil,Onshore Wind,2022,25
+World,Offshore Wind,2022,81
+G20 + EU,Offshore Wind,2022,78
+China,Offshore Wind,2022,78
+EU,Offshore Wind,2022,84
+World,Hydropower,2022,63
+G20 + EU,Hydropower,2022,66
+China,Hydropower,2022,55
+EU,Hydropower,2022,32
+United States ,Hydropower,2022,65
+India,Hydropower,2022,32
+Brazil ,Hydropower,2022,44
+World,Bioenergy,2022,64
+G20 + EU,Bioenergy,2022,63
+China,Bioenergy,2022,58
+EU,Bioenergy,2022,104
+India,Bioenergy,2022,72
+Brazil,Bioenergy,2022,52
+World,Geothermal,2022,59
+G20 + EU,Geothermal,2022,68
+EU,Geothermal,2022,147
+United States ,Geothermal,2022,51
+World,Solar PV,2023,42
+G20 + EU,Solar PV,2023,42
+China,Solar PV,2023,36
+EU,Solar PV,2023,55
+United States ,Solar PV,2023,59
+India,Solar PV,2023,42
+Brazil ,Solar PV,2023,42
+World,Onshore Wind,2023,33
+G20 + EU,Onshore Wind,2023,32
+China,Onshore Wind,2023,26
+EU,Onshore Wind,2023,48
+United States ,Onshore Wind,2023,39
+India,Onshore Wind,2023,47
+Brazil,Onshore Wind,2023,25
+World,Offshore Wind,2023,76
+G20 + EU,Offshore Wind,2023,72
+China,Offshore Wind,2023,72
+EU,Offshore Wind,2023,73
+United States ,Offshore Wind,2023,118
+World,Hydropower,2023,58
+G20 + EU,Hydropower,2023,66
+China,Hydropower,2023,65
+EU,Hydropower,2023,60
+United States ,Hydropower,2023,228
+India,Hydropower,2023,80
+Brazil ,Hydropower,2023,63
+World,Bioenergy,2023,73
+G20 + EU,Bioenergy,2023,73
+China,Bioenergy,2023,61
+EU,Bioenergy,2023,103
+India,Bioenergy,2023,57
+Brazil,Bioenergy,2023,71
+World,Geothermal,2023,72
+G20 + EU,Geothermal,2023,77
+United States ,Geothermal,2023,79
+World,Solar PV,2024,43
+G20 + EU,Solar PV,2024,42
+China,Solar PV,2024,33
+EU,Solar PV,2024,59
+United States ,Solar PV,2024,70
+India,Solar PV,2024,38
+Brazil ,Solar PV,2024,48
+World,Onshore Wind,2024,34
+G20 + EU,Onshore Wind,2024,34
+China,Onshore Wind,2024,29
+EU,Onshore Wind,2024,52
+United States ,Onshore Wind,2024,39
+India,Onshore Wind,2024,48
+Brazil,Onshore Wind,2024,30
+World,Offshore Wind,2024,79
+G20 + EU,Offshore Wind,2024,70
+China,Offshore Wind,2024,56
+EU,Offshore Wind,2024,80
+United States ,Offshore Wind,2024,123
+World,Hydropower,2024,57
+G20 + EU,Hydropower,2024,50
+China,Hydropower,2024,49
+EU,Hydropower,2024,44
+India,Hydropower,2024,98
+Brazil ,Hydropower,2024,44
+World,Bioenergy,2024,87
+G20 + EU,Bioenergy,2024,86
+China,Bioenergy,2024,66
+EU,Bioenergy,2024,83
+India,Bioenergy,2024,65
+Brazil,Bioenergy,2024,118
+World,Geothermal,2024,60
+G20 + EU,Geothermal,2024,72
+United States ,Geothermal,2024,83

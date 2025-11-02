@@ -64,7 +64,7 @@ sorted_countries = sorted(country_selection)
 selected_country = st.selectbox(
     "Select a Country or an Aggregate (Total World as default)",  # label
     options=sorted_countries,
-    index=sorted_countries.index("Estonia")  # 👈 set default selection by index
+    index=sorted_countries.index("Italy")  # 👈 set default selection by index
 )
 
 filtered_zero=df[df["Country"] == selected_country]
@@ -72,7 +72,7 @@ group_technology_selection_sorted=sorted(group_technology_selection)
 selected_group_technology= st.selectbox(
     "Select a Group Technology  (Bioenergy as default)",  # label
     options=group_technology_selection_sorted,
-    index=group_technology_selection_sorted.index("Bioenergy")  # 👈 set default selection by index
+    #index=group_technology_selection_sorted.index("Bioenergy")  # 👈 set default selection by index
 )
 
 filtered_one = filtered_zero[filtered_zero["Group Technology"] == selected_group_technology]
@@ -80,7 +80,7 @@ technology_selection_sorted=sorted(filtered_one["Technology"].unique().tolist())
 selected_technology= st.selectbox(
     "Select a Technology",  # label
     options=technology_selection_sorted,
-    index=technology_selection_sorted.index("Biogas")  # 👈 set default selection by index
+    #index=technology_selection_sorted.index("Biogas")  # 👈 set default selection by index
 )
 
 # 2️⃣ Filter df based on selected Technology
@@ -89,7 +89,7 @@ sub_technology_options = sorted(filtered_two["Sub-Technology"].unique().tolist()
 selected_sub_technology = st.selectbox(
     f"Select a Sub-Technology for {selected_technology}",
     options=sub_technology_options,
-    index=sub_technology_options.index("Biogas n.e.s.")
+    #index=sub_technology_options.index("Biogas n.e.s.")
 )
 
 filtered_three=filtered_two[filtered_two["Sub-Technology"] == selected_sub_technology]
@@ -97,7 +97,7 @@ producer_type_options = sorted(filtered_three["Producer Type"].unique().tolist()
 selected_producer_type = st.selectbox(
     f"Select a Sub-Technology for {selected_sub_technology}",
     options=producer_type_options,
-    index=producer_type_options.index("Heat (Commercial)")
+    #index=producer_type_options.index("Heat (Commercial)")
 )
 
 df_filtered=filtered_three[filtered_three["Producer Type"]==selected_producer_type]

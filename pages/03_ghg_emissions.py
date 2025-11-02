@@ -17,19 +17,20 @@ apply_style_and_logo()
 df_readeble=pd.read_csv("data/Statistical-Review-of-World-Energy-Data-2025-forpy.csv")
 df_readeble["Region"].unique()
 df_readeble["Country"].unique()
-glossary_da=pd.read_csv("data/Glossary.csv")
 df_raw=pd.read_csv("data/panel.csv")
 df=df_raw
-
-
 
 #✅------------------------DATA ELABORATION---------------------------------------------
 
 #GHG EMISSIONS
 #Selection : Country --> stacked bar graph along years
 
-
 df["co2_ex_combustion"]=df["co2_mtco2"]-df["co2_combust_mtco2"]
+#extract the last valur TES World 
+# Find the last (max) year
+latest_year = df['Year'].max()
+filtered_value = df.loc[(df['Country'] == 'Total World') & (df['Year'] == latest_year),'co2_mtco2'].values
+co2_value_world_last = filtered_value[0] if len(filtered_value) > 0 else None  #Mt
 
 country_selection=(
                     df["Country"]
@@ -38,7 +39,6 @@ country_selection=(
 )
 
 year_thresold=1990
-
 
 color_map = {
     "co2_combust_mtco2": "#B0BEC5",   # pastel steel grey-blue (CO₂ from combustion)
@@ -51,11 +51,11 @@ color_map = {
 st.title(f" 🏭 GHG Emissions")
 st.markdown("""
             ### 📊 GHG Emissions
-            #### data in GtCO2eq
+            #### data in [GtCO2eq]
             
             """)
 st.markdown(""" 
-            source: Energy Institute 2025
+            source: Energy Institute (2024), Country Transition Tracker 2024, Energy Institute, London.
                         """)
 
 
@@ -64,7 +64,6 @@ selected_country = st.selectbox(
     options=country_selection,
     index=country_selection.index("Total Europe")  # 👈 set default selection by index
 )
-
 
 # **************************************************************************************
 #selection for the different energy in EJ
@@ -79,6 +78,7 @@ df_filtered= (
 # **************************************************************************************
 
 latest_data = df_filtered["co2_mtco2"].iloc[-1]/1000   # GtCO2eq
+co2_country_share=latest_data /(co2_value_world_last/1000)*100
 values_vs_1990=df_filtered.query("Year ==1990")["co2_mtco2"].iloc[0]/1000
 values_vs_2005=df_filtered.query("Year ==2005")["co2_mtco2"].iloc[0]/1000
 pc_change_1990=((latest_data-values_vs_1990)/values_vs_1990)*100
@@ -90,8 +90,8 @@ with col1:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>Total Energy Supply</h3>
-            <h1 style='color: #D5D8DC;'>{latest_data:.2f} GtCO2eq</h1>
+            <h3>Country share </h3>
+            <h1 style='color: #D5D8DC;'>{co2_country_share:.1f} [%]</h1>
         </div>
         """,
         unsafe_allow_html=True

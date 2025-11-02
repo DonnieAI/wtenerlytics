@@ -17,7 +17,6 @@ apply_style_and_logo()
 df_readeble=pd.read_csv("data/Statistical-Review-of-World-Energy-Data-2025-forpy.csv")
 df_readeble["Region"].unique()
 df_readeble["Country"].unique()
-glossary_da=pd.read_csv("data/Glossary.csv")
 df_raw=pd.read_csv("data/panel.csv")
 df=df_raw
 
@@ -91,7 +90,7 @@ st.markdown("""
             
             """)
 st.markdown(""" 
-            source: Energy Institute 2025
+            source: Energy Institute (2024), Country Transition Tracker 2024, Energy Institute, London.
                         """)
 
 selected_country = st.selectbox(
