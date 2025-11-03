@@ -127,8 +127,6 @@ if not selected_column:
 #-------------------------------------------------------
 
 last_value=df_filtered[selected_column].iloc[-1]
-
-
 data_to_plot = df_filtered[selected_column].copy()
 last_year = data_to_plot.index.max()
 
@@ -139,7 +137,7 @@ with col1:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>{selected_country} {selected_sub_technology} {selected_column} </h3>
+            <h3>{selected_country} | {selected_sub_technology} | {selected_column} </h3>
             <h1 style='color: #D5D8DC;'>{last_value:.0f} </h1>
         </div>
         """,
@@ -150,24 +148,25 @@ with col2:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>{selected_country} {selected_sub_technology} {selected_column} </h3>
+            <h3>{selected_country} | {selected_sub_technology} | {selected_column} </h3>
             <h1 style='color: #D5D8DC;'>{last_value:.0f} </h1>
         </div>
         """,
         unsafe_allow_html=True
     )
 
+
 with col3:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>{selected_sub_technology} {selected_column} </h3>
-             <h3>{last_year}  </h3>
+            <h3>{selected_country} | {selected_sub_technology} | {selected_column} </h3>
             <h1 style='color: #D5D8DC;'>{last_value:.0f} </h1>
         </div>
         """,
         unsafe_allow_html=True
     )
+
 
 
 
@@ -283,3 +282,19 @@ fig.update_yaxes(
 
 fig.update_layout(height=600) 
 st.plotly_chart(fig, use_container_width=True, key="renewable_chart")
+
+
+#----------------------------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------------------------
+
+# Prepare CSV for download
+csv = df_filtered.to_csv(index=True).encode("utf-8")
+
+# Download button
+st.download_button(
+    label=f"⬇️ Renewable focus | {selected_sub_technology} | {selected_country} ",
+    data=csv,
+    file_name=f"Renewable focus_{selected_sub_technology}_{selected_country}.csv",
+    mime="text/csv",
+)

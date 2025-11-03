@@ -233,3 +233,19 @@ fig.update_layout(height=600)
 
 # Show Plotly chart
 st.plotly_chart(fig, use_container_width=True, key="key_material_chart")
+
+
+#----------------------------------------------------------------------
+st.markdown("---")  # horizontal line separator
+#----------------------------------------------------------------------
+
+# Prepare CSV for download
+csv = df_filtered.to_csv(index=True).encode("utf-8")
+
+# Download button
+st.download_button(
+    label=f"⬇️ Download data for Key Minerals | {selected_country} ",
+    data=csv,
+    file_name=f"Key_Minerals_{selected_country}.csv",
+    mime="text/csv",
+)

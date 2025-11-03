@@ -166,8 +166,7 @@ st.plotly_chart(fig, use_container_width=True, key="country_chart")
 
 #----------------------------------------------------------------------
 st.markdown("---")  # horizontal line separator
-
-
+#----------------------------------------------------------------------
 
 # Prepare CSV for download
 csv = df_filtered.to_csv(index=True).encode("utf-8")
@@ -180,8 +179,9 @@ st.download_button(
     mime="text/csv",
 )
 
+#----------------------------------------------------------------------
 st.markdown("---")  # horizontal line separator
-
+#----------------------------------------------------------------------
 st.markdown(
     """
     <small><i>

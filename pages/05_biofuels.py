@@ -63,7 +63,7 @@ st.markdown("""
             
             """)
 st.markdown(""" 
-            source: Energy Institute 2025
+            source: source: Energy Institute (2024), Country Transition Tracker 2024, Energy Institute, London.
                         """)
 
 
@@ -101,7 +101,7 @@ with col1:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>Biofuels production</h3>
+            <h3>{selected_country} | Biofuels production</h3>
             <h1 style='color: #D5D8DC;'>{latest_data_produced:.1f} kboepd</h1>
         </div>
         """,
@@ -112,7 +112,7 @@ with col2:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>Biodiesel production</h3>
+            <h3>{selected_country} | production</h3>
             <h1 style='color: #D5D8DC;'>{last_biodiesel:.1f} kboepd</h1>
         </div>
         """,
@@ -123,7 +123,7 @@ with col3:
     st.markdown(
         f"""
         <div style='background-color: #005680; padding: 30px; border-radius: 10px; text-align: center;'>
-            <h3>Ethanol production</h3>
+            <h3>{selected_country} | production</h3>
             <h1 style='color: #D5D8DC;'>{last_ethanol:.1f} kboepd</h1>
         </div>
         """,
@@ -153,6 +153,7 @@ fig.add_trace(
         y=df_filtered["biofuels_prod_kboed"] / 1000,  # Convert MtCO2 → GtCO2
         mode="lines",  # Add markers if you want dots on the line
         name="Biofuels - production ",
+        fill='tozeroy',
         line=dict(
                 color=color_map.get("biofuels_prod_kboed", "#000"), 
                 width=2, 
@@ -169,6 +170,7 @@ fig.add_trace(
         y=df_filtered["biofuels_cons_kboed"] / 1000,  # Convert MtCO2 → GtCO2
         mode="lines",  # Add markers if you want dots on the line
         name="Biofuels - consumption ",
+        fill='tozeroy',
         line=dict(
                 color=color_map.get("biofuels_cons_kboed", "#000"), 
                 width=2, 
@@ -178,6 +180,8 @@ fig.add_trace(
         row=1,
         col=1
 )
+
+ 
 
 
 # Add YoY change bars (row 2)

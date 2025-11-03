@@ -240,8 +240,8 @@ csv = df_filtered.to_csv(index=True).encode("utf-8")
 
 # Download button
 st.download_button(
-    label=f"⬇️ Download data for GHG | {selected_country} ",
+    label=f"⬇️ Download data for Oil Products | {selected_country} ",
     data=csv,
-    file_name=f"GHG_data_{selected_country}.csv",
+    file_name=f"Oil_Products_{selected_country}.csv",
     mime="text/csv",
 )
